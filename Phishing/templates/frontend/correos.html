@@ -1,0 +1,73 @@
+{% load static %}
+<div class="box">
+    <div class="box-header">
+        <div class="box-header-info">
+            <div><img class="mail-icon" src="../static/images/frontend/icons/mail.svg"></div>
+            <div><h6 class="green email-text">{{ i.correo }}</h6></div>
+            <!--dropdown icons-->
+            <div id="drop-icon-{{ forloop.counter }}" class="drop-icon" onclick="dropIconPress('{{ forloop.counter }}')">
+                <div>
+                    <span class="subtitle"><h6>Intentos</h6></span>
+                    <img id="drop-down-{{ forloop.counter }}" class="drop-down icon" src="../static/images/frontend/correos/drop-down.svg">
+                    <img id="drop-up-{{ forloop.counter }}" class="drop-up icon" src="../static/images/frontend/correos/drop-up.svg">
+                </div>
+            </div>
+        </div>
+        <div>
+            <!--button send-->
+            <button onclick="toggleModal('enviar-phishing{{i.id}}') "class="button blue-btn"><h6>Enviar Phishing</h6></button> 
+            <!--button delete-->
+            <button onclick="toggleModal('delete{{i.id}}') "class="button red-btn"><h6>Eliminar</h6></button>
+        </div>
+    </div>
+    <div class="box-body box-body-left">
+        
+
+        <div class="pc-box">
+            <div>
+                
+                <!--popup button delete-->
+                <div id="delete{{i.id}}" class="modal popupContentWrapper">
+                    <div class="popup-content">
+                        <span onclick="toggleModal('delete{{i.id}}')" class="close">&times;</span>
+                        <form action="{% url 'borrar-correo' id=i.id %}" method="post" style="text-align: center;">
+                            <h5>Introduce "delete" para confirmar la eliminación del correo <span class="green">{{ i.correo }}</span>:</h5>
+                            <div>
+                                {% csrf_token %}
+                                {{ form_delete.delete }}
+                                <input type="submit" class="submit" value="Eliminar">
+                            </div>
+                        
+                        </form>
+
+                    </div>
+                </div>   
+                
+                <!--popup button send-->
+                <div id="enviar-phishing{{i.id}}" class="modal popupContentWrapper">
+                    <div class="popup-content">
+                        <span onclick="toggleModal('enviar-phishing{{i.id}}')" class="close">&times;</span>
+                        <form action="{% url 'phishing' id=i.id %}" method="post" style="text-align: center;">
+                            <h5>Enviar phishing al correo <span class="green">{{ i.correo }}</span>:</h5>
+                            <div>
+                                {% csrf_token %}
+                                    {{ form_phishing.phishing }}
+                                    {{ form_phishing.servicio }}
+                                <input type="submit" class="submit" value="Añadir">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+        <div id="pc-options-box-{{ forloop.counter }}" class="pc-options-box">
+
+            {% block tabla %}
+            {% include 'frontend/tablaIntentos.html' %}
+            {% endblock %}
+
+        </div>
+    </div>
+</div>

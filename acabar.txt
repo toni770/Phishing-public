@@ -1,0 +1,27 @@
+
+COSAS A ACABAR:
+
+- Falta definir como se van a cargar los templates de los logins(ahora mismo no se añaden en ningun sitio)
+- control de errores con mensajes por pantalla ( añadido correctamente, no se ha podido eliminar...etc)
+	Propuesta David: He creado una funcion llamada error_handler en el views que podemos usar para asignar un codigo de estado aprovechando los codigos que Toni ha establecido
+	he podido observar que el color del popup que aparece arriba cambia de color en funcion de idMensaje. la idea seria aprovechar eso para hacer un manejo de errores
+- Añadir envio de virus en pdf o imagenes en el gmail(falta crear models y permitir subir un archivo el cual adjuntar al correo o via link)
+- Introducir links en el cuerpo del mensaje (seguir los prints)
+
+
+
+- Acabar el dashboard
+- Notificacion cuando status true ( a tres colores o simbolo, status_mail = x1, status_web = x2, credenciales = x3).
+
+
+POSTPRODUCCION:
+
+- Integracion de SSL
+- HACER SEGURO TODO EL CONTENIDO
+
+
+
+
+DICIEMBRE
+
+CHAT WEBSOCKET CON APP REVERSHELL

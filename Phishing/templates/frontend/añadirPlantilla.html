@@ -1,0 +1,51 @@
+{% load static %}
+
+<link href="{% static 'css/frontend/añadir.css'%}" rel="stylesheet"/>
+
+<div id="cliente-modal" class="modal popupContentWrapper">
+    <div class="popup-content">
+        <span onclick="toggleModal('cliente-modal')" class="close">&times;</span>
+        <form action="{% url 'crear-plantilla' %}" method="post" style="text-align: center;">
+            <h4>Añadir nueva plantilla</h4>
+            <div>
+                {% csrf_token %}
+                <div class="input-contenedor">
+                    <i class="fas fa-envelope icon" id="servicio"></i>
+                    <h6>Servicio : </h6>
+                    {{form_plantilla.servicio}}
+                  </div>
+                  <div class="input-contenedor" >
+                    <i class="fas fa-envelope icon" id="email"></i>
+                    <h6>Email : </h6>
+                    {{form_plantilla.email}}
+                  </div>
+                  <div class="input-contenedor" >
+                    <i class="fas fa-key icon" id="password"></i>
+                    <h6>Password : </h6>
+                    {{form_plantilla.password}}
+                  </div>
+                  <div class="input-contenedor" >
+                    <i class="fas fa-envelope icon" id="asunto"></i>
+                    <h6>Asunto : </h6>
+                    {{form_plantilla.asunto}}
+                  </div>
+                  <div class="input-contenedor" >
+                    <i class="fas fa-envelope icon" id="mensaje"></i>
+                    <h6>Mensaje : </h6>
+                    {{form_plantilla.mensaje}}
+                  </div>
+                <input type="submit" class="submit" value="Añadir">
+            </div>
+            
+        
+        </form>
+    </div>
+</div>
+<div class="inline-block">
+    <div class="boton add-email" id="add-email"><a href="#"><p onclick="toggleModal('correo-modal')">Servicio</p></a></div>
+    <button class="boton" type="button" onclick="toggleModal('cliente-modal')">
+        <img class="add-icon" src="../static/images/plus.svg">
+        <h5>plantilla</h5> 
+    </button>
+    
+</div>

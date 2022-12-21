@@ -1,0 +1,7 @@
+{% if mensaje != '' %}
+    <div class="alert {% if idMensaje == 2%}success{% elif idMensaje == 3%}neutral{%else%}{%endif%}" id="msjPopUp" >
+        <span class="alert-closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+        {{mensaje}}
+    </div>
+            
+{% endif %}
