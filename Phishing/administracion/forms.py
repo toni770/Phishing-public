@@ -18,7 +18,6 @@ class PlantillaForm(forms.ModelForm):
     class Meta:
         model = Plantillas
         fields = ('servicio', 'email', 'password', 'asunto', 'mensaje')
-
         
 class DeleteForm(forms.Form):
     delete = forms.CharField(max_length=6)

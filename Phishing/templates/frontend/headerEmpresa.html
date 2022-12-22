@@ -55,8 +55,14 @@
         <div id="rename_empresa" class="modal popupContentWrapper">
             <div class="popup-content">
                 <span onclick="toggleModal('rename_empresa')" class="close">&times;</span>
-                <form action="" method="post" style="text-align: center;">
-                    <h5>TODO: Cambiar el nombre de la empresa</h5>
+                <form action="{% url 'cambiar-nombre-empresa' id=empresa_actual.id %}" method="post">
+                    <h5>Cambiar el nombre de la empresa <span class="green">{{ empresa_actual }}</span>:</h5>
+                    {% csrf_token %}
+                    <div>
+                        {{ form_empresa.nombre }}
+                        <input type="submit" class="submit" value="Cambiar">
+                    </div>
+                
                 </form>
             </div>
         </div>

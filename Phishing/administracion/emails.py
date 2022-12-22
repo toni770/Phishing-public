@@ -15,10 +15,6 @@ def enviar( usuario, contraseña, destino, asunto, contenido, link_status, link_
     # print("Asunto: " + asunto)
     # print("Contenido: " + contenido)
 
-
-    # contenido = contenido.replace("8888", link_status)
-    # contenido = contenido.replace("9999", link_login)
-
     #Variables de configuración
     mail_origen = str(usuario)
     password = contraseña
@@ -26,14 +22,16 @@ def enviar( usuario, contraseña, destino, asunto, contenido, link_status, link_
 
     #Creamos el  mensaje con MIME
     contenido_mensaje = MIMEMultipart()
-    contenido_mensaje['From'] = mail_origen
+    contenido_mensaje['From'] = 'Info'#mail_origen
     contenido_mensaje['To'] = mail_destino
     contenido_mensaje['Subject'] = asunto
     contenido_mensaje['Date'] = str(date.today())
 
     print (contenido_mensaje)
-    #Remplazamos los enlaces (Funciona)
-    contenido = contenido.replace("pruebaprueba", 'https://www.google.es/')
+    #Remplazamos los enlaces
+    contenido = contenido.replace("8888", link_status)
+    contenido = contenido.replace("9999", link_login)
+    #contenido = contenido.replace("pruebaprueba", 'https://www.google.es/')
     
     #Adjuntamos el contenido como html
     contenido_mensaje.attach(MIMEText(contenido,"html"))

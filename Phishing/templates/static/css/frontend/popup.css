@@ -51,7 +51,6 @@
     flex-direction: column;
 }
 
-
 .popupContentWrapper form > div > input,
 .popupContentWrapper form > div > textarea {
     border: 1px solid #3DA574;

@@ -1,5 +1,3 @@
-
-
 .sidebar-wrapper {
     width: 280px;
     background: #389466;
@@ -47,7 +45,7 @@
     padding-bottom: 8px;
 }
 .nav li > a:hover {
-    background-color: #50b484;
+    background-color: #ffffff5c;;
 }
 .nav2 li > a {
     margin-top: 0px;

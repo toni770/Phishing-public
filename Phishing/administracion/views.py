@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib import messages # Allows to send error messages
 from .models import Empresas, Correos, Plantillas, Intentos, Status_Mail, Status_Web
 from .forms import EmpresaForm, CorreoForm, DeleteForm, PhishingForm, PlantillaForm
 from .emails import enviar
@@ -11,15 +12,9 @@ from datetime import datetime
 
 
 @login_required(login_url='/accounts/login/')
-def clientes(request, id=None, mensaje=''): 
-
-    mensaje = 'No se ha podido eliminar el correo'
-    # 1: Error, 2: Exito, 3:Neutral
-    idMensaje = 2
-
+def clientes(request, id=None):    
     if id != 'AÑADA CLIENTES':
         empresa = Empresas.objects.filter(id = id)[0]
-
         data = {
             'empresas' : Empresas.objects.all(),
             'empresa_actual' : Empresas.objects.filter(id = id)[0],
@@ -31,9 +26,7 @@ def clientes(request, id=None, mensaje=''):
             'form_delete' : DeleteForm,
             'form_phishing' : PhishingForm(),
             'opcion' : 'CLIENTES',
-            'op' : 'SI',
-            'mensaje' : mensaje,
-            'idMensaje' : idMensaje
+            'op' : 'SI'
         }
     else:
 
@@ -46,9 +39,7 @@ def clientes(request, id=None, mensaje=''):
             'form_delete' : DeleteForm,
             'form_phishing' : PhishingForm(),
             'opcion' : 'CLIENTES',
-            'op' : 'AÑADA CLIENTES',
-            'mensaje' : mensaje,
-            'idMensaje' : idMensaje
+            'op' : 'AÑADA CLIENTES'
         }
 
     return render(request, 'frontend/index.html', data)
@@ -59,6 +50,7 @@ def crear_empresa(request):
     empresaForm = EmpresaForm(request.POST)
     if empresaForm.is_valid():
         empresa = Empresas.objects.create(nombre=request.POST['nombre']).id
+        messages.add_message(request, messages.SUCCESS, 'Cliente creado correctamente')
 
     return redirect('clientes', empresa)
 
@@ -69,6 +61,7 @@ def crear_correo(request, id=None):
     empresa = Empresas.objects.filter(id = id)
     if correoForm.is_valid():
         Correos.objects.create(correo=request.POST['correo'], empresa=empresa[0])
+        messages.add_message(request, messages.SUCCESS, 'Correo creado correctamente')
 
     return redirect('clientes', empresa[0].id)
 
@@ -77,7 +70,9 @@ def crear_correo(request, id=None):
 def borrar_empresa(request, id=None):
     if request.POST['delete'] == 'delete':
         Empresas.objects.filter(id = id).delete()
-
+        messages.add_message(request, messages.SUCCESS, 'Cliente eliminado correctamente')
+    else:
+        messages.add_message(request, messages.ERROR, 'El mensaje de confirmación debe de ser "delete"')
     return redirect('index-menu', 'CLIENTES')
 
 
@@ -90,8 +85,23 @@ def borrar_correo(request, id=None):
     if request.POST['delete'] == 'delete':
         correoObj.delete()
         deleted = True
+        messages.add_message(request, messages.SUCCESS, 'Correo eliminado correctamente')
+    else:
+        messages.add_message(request, messages.ERROR, 'El mensaje de confirmación debe de ser "delete"')
 
     return redirect('clientes', empresa)
+
+@login_required(login_url='/accounts/login/')
+def cambiar_nombre_empresa(request, id=None):
+    empresaForm = EmpresaForm(request.POST)
+    if empresaForm.is_valid():
+        nombre = request.POST['nombre']
+        Empresas.objects.filter(id=id).update(nombre=nombre)
+        messages.add_message(request, messages.SUCCESS, 'Se ha cambiado el nombre correctamente')
+    else:
+        messages.add_message(request, messages.ERROR, 'Hay un error')
+        
+    return redirect('clientes', id)
 
 
 ####     PHISHING       #####
@@ -124,7 +134,7 @@ def phishing(request, id=None):
     return redirect('clientes', empresa)
 
 
-@login_required(login_url='/accounts/login/')
+#@login_required(login_url='/accounts/login/')
 def web_status(request, servicio=None, intweb=None):
 
     data = {
@@ -162,7 +172,7 @@ def web_status(request, servicio=None, intweb=None):
         return render(request, 'logins/aviso.html', data)
 
 
-@login_required(login_url='/accounts/login/')
+#@login_required(login_url='/accounts/login/')
 def mail_status(request, intmail=None):
 
     x = Intentos.objects.filter(mail_status_id__id=intmail)[0]
@@ -227,6 +237,7 @@ def crear_plantilla(request):
     plantilla = PlantillaForm(request.POST)
     if plantilla.is_valid():
         plantilla.save()
+        messages.add_message(request, messages.SUCCESS, 'Se ha creado la plantilla correctamente')
         op = 'PLANTILLAS'
         return redirect('servicios-menu', op)
     op = 'PLANTILLAS'
@@ -248,6 +259,7 @@ def editar_plantilla(request, id=None):
     Plantillas.objects.filter(id=id).update(asunto=asunto)
     Plantillas.objects.filter(id=id).update(mensaje=mensaje)
     op = 'PLANTILLAS'
+    messages.add_message(request, messages.SUCCESS, 'Se ha editado la plantilla correctamente')
 
     return redirect('servicios-menu',op)
 
@@ -258,7 +270,10 @@ def eliminar_plantilla(request, id=None):
     if request.POST['delete'] == 'delete':
         Plantillas.objects.filter(id=id).delete()
         op = 'PLANTILLAS'
+        messages.add_message(request, messages.SUCCESS, 'Se ha eliminado la plantilla correctamente')
         return redirect('servicios-menu', op)
+    else:
+        messages.add_message(request, messages.ERROR, 'El mensaje de confirmación debe ser "delete"')
     op = 'PLANTILLAS'
     return redirect('servicios-menu', op)  
 
@@ -347,7 +362,6 @@ def logout_view(request):
     return redirect('login')
 
 def error_handler(request, status):
-
     if status == 'OK':
         mensaje = 2
         return render(request, mensaje)

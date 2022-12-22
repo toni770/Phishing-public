@@ -12,11 +12,11 @@
     <link href="{% static 'css/frontend/correos.css'%}" rel="stylesheet" />
     <link href="{% static 'css/frontend/popup.css' %}" rel="stylesheet" />
     <link href="{% static 'css/frontend/headerEmpresa.css'%}" rel="stylesheet" />
+    <link href="{% static 'css/frontend/dashboard.css'%}" rel="stylesheet" />
+    <link href="{% static 'css/frontend/header.css'%}" rel="stylesheet" />
 
 </head>
 <body>
-
-   
 
     {% load static %}
 
@@ -29,7 +29,7 @@
 
    
 
-    <section style="display:flex; min-height: calc(100vh - 60px);">
+    <section style="display:flex; min-height: calc(100vh - 100px);">
 
 
         {% if opcion == None %}
@@ -95,6 +95,12 @@
 
                     {% if op == 'PLANTILLAS' %}
 
+                        <div class="headerContainer">
+                            <div>
+                                <h1 class="green uppercase">PLANTILLAS</h1>
+                            </div>
+                        </div>
+
                         {% for i in plantillas %}
                             {% block plantillas %}
                             {% include 'frontend/plantillas.html' %}
@@ -103,14 +109,22 @@
 
                     {% elif op == 'MALWARE' %}
 
-                        <h1>MALWARE</h1>
+                    <div class="headerContainer">
+                        <div>
+                            <h1 class="green uppercase">MALWARE</h1>
+                        </div>
+                    </div>
 
                     {% endif %}
 
                 {% elif opcion == 'OPCIONES' %}
                     {% if op == 'USUARIO' %}
 
-                        <h1>USUARIO</h1>
+                        <div class="headerContainer">
+                            <div>
+                                <h1 class="green uppercase">USUARIO</h1>
+                            </div>
+                        </div>
 
                     {% elif op == 'DASHBOARD' %}
                         {% block dashboard %}

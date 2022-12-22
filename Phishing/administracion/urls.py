@@ -12,6 +12,7 @@ urlpatterns = [
     path('crearCorreo/<str:id>', views.crear_correo, name='crear-correo'),
     path('borrarEmpresa/<str:id>', views.borrar_empresa, name='borrar-empresa'),
     path('borrarCorreo/<str:id>', views.borrar_correo, name='borrar-correo'),
+    path('cambiarNombreEmpresa/<str:id>', views.cambiar_nombre_empresa, name='cambiar-nombre-empresa'),
     path('phishing/<str:id>', views.phishing, name='phishing'),
     path('logins/<str:intweb>/<str:servicio>', views.web_status, name='web-status'),
     path('status/<str:intmail>', views.mail_status, name='mail-status'),

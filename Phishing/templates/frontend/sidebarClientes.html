@@ -7,7 +7,7 @@
     <!--empresa-->
     <ul class="nav">
         {% for e in empresas %}
-            <li class="{% if empresa_actual == e.id %} active {% endif %}">
+            <li class="{% if empresa_actual.id == e.id %} active {% endif %}">
                 <a href="{% url 'clientes' id=e.id %}">
                     <div><img class="building-icon" src="../static/images/frontend/icons/building.svg"></div>
                     <div class="cut-text"><h6 class="uppercase">{{ e.nombre }}</h6></div>

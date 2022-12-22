@@ -3,19 +3,18 @@
     <div class="logo">
         <h5>SERVICIOS</h5>  
     </div>
-    
     <!--empresa-->
     <ul class="nav">
 
-        <li class="">
+        <li class="{% if op == 'PLANTILLAS' %} active {% endif %}">
             <a href="{% url 'servicios-menu' op='PLANTILLAS' %}">
-                <div><img class="building-icon" src="../static/images/frontend/icons/building.svg"></div>
+                <div><img class="building-icon" src="../static/images/frontend/icons/doc.svg"></div>
                 <div class="cut-text"><h6 class="uppercase">PLANTILLAS</h6></div>
             </a>
         </li>             
-        <li class="">
+        <li class="{% if op == 'MALWARE' %} active {% endif %}">
             <a href="{% url 'servicios-menu' op='MALWARE' %}">
-                <div><img class="building-icon" src="../static/images/frontend/icons/building.svg"></div>
+                <div><img class="building-icon" src="../static/images/frontend/icons/virus.svg"></div>
                 <div class="cut-text"><h6 class="uppercase">MALWARE</h6></div>
             </a>
         </li>       

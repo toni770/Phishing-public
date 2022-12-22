@@ -1,0 +1,11 @@
+.headerContainer {
+    width: 95%;
+    margin-top: 15px;
+
+}
+
+.headerContainer > div {
+    width: 100%;
+    padding: 20px 15px;
+    font-size: 13px;
+}

@@ -6,38 +6,44 @@
     <div class="popup-content">
         <span onclick="toggleModal('cliente-modal')" class="close">&times;</span>
         <form action="{% url 'crear-plantilla' %}" method="post" style="text-align: center;">
-            <h4>Añadir nueva plantilla</h4>
-            <div>
-                {% csrf_token %}
-                <div class="input-contenedor">
+            <h5 class="popupTitle">Añadir nueva plantilla</h5>
+              {% csrf_token %}
+              <div class="input-contenedor">
+                  <div>
                     <i class="fas fa-envelope icon" id="servicio"></i>
                     <h6>Servicio : </h6>
-                    {{form_plantilla.servicio}}
                   </div>
-                  <div class="input-contenedor" >
-                    <i class="fas fa-envelope icon" id="email"></i>
-                    <h6>Email : </h6>
-                    {{form_plantilla.email}}
-                  </div>
-                  <div class="input-contenedor" >
-                    <i class="fas fa-key icon" id="password"></i>
-                    <h6>Password : </h6>
-                    {{form_plantilla.password}}
-                  </div>
-                  <div class="input-contenedor" >
-                    <i class="fas fa-envelope icon" id="asunto"></i>
-                    <h6>Asunto : </h6>
-                    {{form_plantilla.asunto}}
-                  </div>
-                  <div class="input-contenedor" >
-                    <i class="fas fa-envelope icon" id="mensaje"></i>
-                    <h6>Mensaje : </h6>
-                    {{form_plantilla.mensaje}}
-                  </div>
-                <input type="submit" class="submit" value="Añadir">
-            </div>
-            
-        
+                  {{form_plantilla.servicio}}
+              </div>
+              <div class="input-contenedor" >
+                <div>
+                  <i class="fas fa-envelope icon" id="email"></i>
+                  <h6>Email : </h6>
+                </div>
+                {{form_plantilla.email}}
+              </div>
+              <div class="input-contenedor" >
+                <div>
+                  <i class="fas fa-key icon" id="password"></i>
+                  <h6>Password : </h6>
+                </div>
+                {{form_plantilla.password}}
+              </div>
+              <div class="input-contenedor" >
+                <div>
+                  <i class="fas fa-envelope icon" id="asunto"></i>
+                  <h6>Asunto : </h6>
+                </div>
+                {{form_plantilla.asunto}}
+              </div>
+              <div class="input-contenedor" >
+                <div>
+                  <i class="fas fa-envelope icon" id="mensaje"></i>
+                  <h6>Mensaje : </h6>
+                </div>
+                {{form_plantilla.mensaje}}
+              </div>
+              <input type="submit" class="submit" value="Añadir">
         </form>
     </div>
 </div>

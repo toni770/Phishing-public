@@ -48,12 +48,12 @@
                     <div class="popup-content">
                         <span onclick="toggleModal('enviar-phishing{{i.id}}')" class="close">&times;</span>
                         <form action="{% url 'phishing' id=i.id %}" method="post" style="text-align: center;">
-                            <h5>Enviar phishing al correo <span class="green">{{ i.correo }}</span>:</h5>
+                            <h5>Introduce "phishing" para enviar phishing al correo <span class="green">{{ i.correo }}</span>:</h5>
                             <div>
                                 {% csrf_token %}
                                     {{ form_phishing.phishing }}
                                     {{ form_phishing.servicio }}
-                                <input type="submit" class="submit" value="Añadir">
+                                <input type="submit" class="submit" value="Enviar">
                             </div>
                         </form>
                     </div>
