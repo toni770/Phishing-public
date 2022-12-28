@@ -40,7 +40,12 @@
 
 
 
-            {% if opcion == 'CLIENTES' %}
+            {% if opcion == 'DASHBOARD' %}
+                {% block sidebar-dashboard %}
+                    {% include 'frontend/sidebarDashboard.html' %}
+                {% endblock %} 
+
+            {% elif opcion == 'CLIENTES' %}
             <!--info empresa-->
                 {% block sidebar-clientes %}
                 {% include 'frontend/sidebarClientes.html' %}
@@ -66,8 +71,13 @@
             {% if opcion == None %}
             <!--header-->
             {% else %}
+                {% if opcion == 'DASHBOARD' %}
 
-                {% if opcion == 'CLIENTES' %}
+                    {% block dashboard %}
+                    {% include 'frontend/dashboard.html' %}
+                    {% endblock %}
+
+                {% elif opcion == 'CLIENTES' %}
                     <!--info empresa-->
 
                     {% if op == 'AÑADA CLIENTES' %}
@@ -127,8 +137,7 @@
                         </div>
 
                     {% elif op == 'DASHBOARD' %}
-                        {% block dashboard %}
-                        {% include 'frontend/dashboard.html' %}
+                        {% block dashboardOptions %}
                         {% endblock %}
                     {% endif %}
 

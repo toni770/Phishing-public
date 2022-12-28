@@ -2,14 +2,14 @@
 <div class="box">
     <div class="box-header">
         <div class="box-header-info">
-            <div><img class="mail-icon" src="../static/images/frontend/icons/mail.svg"></div>
+            <div><img class="mail-icon" src="{% static 'images/frontend/icons/mail.svg' %}"></div>
             <div><h6 class="green email-text">{{ i.correo }}</h6></div>
             <!--dropdown icons-->
             <div id="drop-icon-{{ forloop.counter }}" class="drop-icon" onclick="dropIconPress('{{ forloop.counter }}')">
                 <div>
                     <span class="subtitle"><h6>Intentos</h6></span>
-                    <img id="drop-down-{{ forloop.counter }}" class="drop-down icon" src="../static/images/frontend/correos/drop-down.svg">
-                    <img id="drop-up-{{ forloop.counter }}" class="drop-up icon" src="../static/images/frontend/correos/drop-up.svg">
+                    <img id="drop-down-{{ forloop.counter }}" class="drop-down icon" src="{% static 'images/frontend/correos/drop-down.svg' %}">
+                    <img id="drop-up-{{ forloop.counter }}" class="drop-up icon" src="{% static 'images/frontend/correos/drop-up.svg' %}">
                 </div>
             </div>
         </div>

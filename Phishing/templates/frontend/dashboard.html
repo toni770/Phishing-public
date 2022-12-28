@@ -8,46 +8,70 @@
 
 <!-- Example plots -->
 
-<div class="headerContainer">
-    <div>
-        <h1 class="green uppercase">DASHBOARD</h1>
-    </div>
+<div class="box empresaBox">
+    <div class="pc-box">
+        <h1 class="green uppercase">DASHBOARD{% if empresa_actual != None %} | {{ empresa_actual.nombre }} {% endif %}</h1>
+        {% if empresa_actual != None and plantilla_actual != None and plantillas|length > 0 %}
+            <div class="actionsWrapper">
+                <ul>
+                    <li>
+                        <a href="#" class="subtitle">
+                            <h6>{{plantilla_actual.servicio}}</h6>
+                            <img class="accionesDrop" src="{% static 'images/frontend/correos/drop-down.svg' %}">
+                        </a>
+                        <ul>
+                            {% for p in plantillas %}
+                                <li class="green-back {% if forloop.first %}first-list{% endif %} {% if forloop.last %}last-list{% endif %}">
+                                    <a href="{% url 'dashboard-e-p' empresa=empresa_actual.id plantilla=p.id%}" class="actionsButton" type="button">
+                                        <img class="icon-edit" src="{% static 'images/frontend/icons/doc.svg' %}">
+                                        <h6>{{p.servicio}}</h6>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>    
 </div>
 <main>
-    <div class="content">
-        <div class="chart">
-            <h3 class="green">Phishing Success Overview:</h3>
-            <div class="lineChartContainer">
-                <canvas id="line-chart"></canvas>
+    {% if empresa_actual != None and plantilla_actual != None %}
+        <div class="content">
+            <div class="chart">
+                <h3 class="green">Phishing Success Overview:</h3>
+                <div class="lineChartContainer">
+                    <canvas id="line-chart"></canvas>
+                </div>
+            </div>
+            <div class="chartSeries">
+                <div class="chart">
+                    <h3 class="green">Email Sent:</h3>
+                    <div class="doughnutChartContainer">
+                        <canvas class="doughnutChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart">
+                    <h3 class="green">Email Opened:</h3>
+                    <div class="doughnutChartContainer">
+                        <canvas class="doughnutChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart">
+                    <h3 class="green">Clicked Link:</h3>
+                    <div class="doughnutChartContainer">
+                        <canvas class="doughnutChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart">
+                    <h3 class="green">Submitted Data:</h3>
+                    <div class="doughnutChartContainer">
+                        <canvas class="doughnutChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="chartSeries">
-            <div class="chart">
-                <h3 class="green">Email Sent:</h3>
-                <div class="doughnutChartContainer">
-                    <canvas class="doughnutChart"></canvas>
-                </div>
-            </div>
-            <div class="chart">
-                <h3 class="green">Email Opened:</h3>
-                <div class="doughnutChartContainer">
-                    <canvas class="doughnutChart"></canvas>
-                </div>
-            </div>
-            <div class="chart">
-                <h3 class="green">Clicked Link:</h3>
-                <div class="doughnutChartContainer">
-                    <canvas class="doughnutChart"></canvas>
-                </div>
-            </div>
-            <div class="chart">
-                <h3 class="green">Submitted Data:</h3>
-                <div class="doughnutChartContainer">
-                    <canvas class="doughnutChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endif %}
 </main>
 
 

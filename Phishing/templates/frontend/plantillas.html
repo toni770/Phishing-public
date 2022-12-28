@@ -2,14 +2,14 @@
 <div class="box">
     <div class="box-header">
         <div class="box-header-info">
-            <div><img class="mail-icon" src="../static/images/frontend/icons/mail.svg"></div>
+            <div><img class="mail-icon" src="{% static 'images/frontend/icons/mail.svg' %}"></div>
             <div><h6 class="green email-text">{{ i.servicio }}</h6></div>
             <!--dropdown icons-->
             <div id="drop-icon-{{ forloop.counter }}" class="drop-icon" onclick="dropIconPress('{{ forloop.counter }}')">
                 <div>
                     <span class="subtitle"><h6>Información</h6></span>
-                    <img id="drop-down-{{ forloop.counter }}" class="drop-down icon" src="../static/images/frontend/correos/drop-down.svg">
-                    <img id="drop-up-{{ forloop.counter }}" class="drop-up icon" src="../static/images/frontend/correos/drop-up.svg">
+                    <img id="drop-down-{{ forloop.counter }}" class="drop-down icon" src="{% static 'images/frontend/correos/drop-down.svg' %}">
+                    <img id="drop-up-{{ forloop.counter }}" class="drop-up icon" src="{% static 'images/frontend/correos/drop-up.svg' %}">
                 </div>
             </div>
         </div>
@@ -54,35 +54,35 @@
                                         <i class="fas fa-envelope icon" id="servicio"></i>
                                         <h6>Servicio : </h6>
                                     </div>
-                                    {{form_plantilla.servicio}}
+                                    {{i.form.servicio}}
                                 </div>
                                 <div class="input-contenedor" >
                                     <div>
                                         <i class="fas fa-envelope icon" id="email"></i>
                                         <h6>Email : </h6>
                                     </div>
-                                    {{form_plantilla.email}}
+                                    {{i.form.email}}
                                 </div>
                                 <div class="input-contenedor" >
                                     <div>
                                         <i class="fas fa-key icon" id="password"></i>
                                         <h6>Password : </h6>
                                     </div>
-                                    {{form_plantilla.password}}
+                                    {{i.form.password}}
                                 </div>
                                 <div class="input-contenedor" >
                                     <div>
                                         <i class="fas fa-envelope icon" id="asunto"></i>
                                         <h6>Asunto : </h6>
                                     </div>
-                                    {{form_plantilla.asunto}}
+                                    {{i.form.asunto}}
                                 </div>
                                 <div class="input-contenedor" >
                                     <div>
                                         <i class="fas fa-envelope icon" id="mensaje"></i>
                                         <h6>Mensaje : </h6>
                                     </div>
-                                    {{form_plantilla.mensaje}}
+                                    {{i.form.mensaje}}
                                 </div>
                                 <input type="submit" class="submit" value="Añadir">
                             </div>

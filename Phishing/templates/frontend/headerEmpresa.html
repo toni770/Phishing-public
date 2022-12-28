@@ -1,4 +1,4 @@
-
+{% load static %}
 {% if empresa_actual != None %}
 <div class="box empresaBox">
     <div class="pc-box">
@@ -8,24 +8,24 @@
                 <li>
                     <a href="#" class="subtitle">
                         <h6>Acciones</h6>
-                        <img class="accionesDrop" src="../static/images/frontend/correos/drop-down.svg">
+                        <img class="accionesDrop" src="{% static 'images/frontend/correos/drop-down.svg' %}">
                     </a>
                     <ul>
                         <li class="green-back first-list">
-                            <button type="button" onclick="toggleModal('correo-modal{{empresa_actual}}')">
-                                <img class="icon-add" src="../static/images/plus.svg">
+                            <button class="actionsButton" type="button" onclick="toggleModal('correo-modal{{empresa_actual}}')">
+                                <img class="icon-add" src="{% static 'images/plus.svg' %}">
                                 <h6>Añadir correo</h6>
                             </button>
                         </li>
                         <li class="green-back">
-                            <button type="button" onclick="toggleModal('rename_empresa')">
-                                <img class="icon-edit" src="../static/images/frontend/icons/edit.svg">
+                            <button class="actionsButton" type="button" onclick="toggleModal('rename_empresa')">
+                                <img class="icon-edit" src="{% static 'images/frontend/icons/edit.svg' %}">
                                 <h6>Cambiar nombre</h6>
                             </button>
                         </li>
                         <li>
-                            <button type="button" class="delete-btn-empresa" onclick="toggleModal('delete_empresa')">
-                                <img class="icon-close" src="../static/images/frontend/icons/close.svg">
+                            <button class="actionsButton delete-btn-empresa" type="button" onclick="toggleModal('delete_empresa')">
+                                <img class="icon-close" src="{% static 'images/frontend/icons/close.svg' %}">
                                 <h6>Eliminar cliente</h6>
                             </button>
                         </li>
@@ -59,7 +59,7 @@
                     <h5>Cambiar el nombre de la empresa <span class="green">{{ empresa_actual }}</span>:</h5>
                     {% csrf_token %}
                     <div>
-                        {{ form_empresa.nombre }}
+                        {{ form_empresa_nombre.nombre }}
                         <input type="submit" class="submit" value="Cambiar">
                     </div>
                 

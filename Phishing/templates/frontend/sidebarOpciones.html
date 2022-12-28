@@ -1,3 +1,4 @@
+{% load static %}
 <section class="sidebar-wrapper">
     <!--header-->
     <div class="logo">
@@ -7,13 +8,13 @@
     <ul class="nav">
         <li class="{% if op == 'USUARIO' %} active {% endif %}">
             <a href="{% url 'opciones-menu' op='USUARIO' %}">
-                <div><img class="building-icon" src="../static/images/frontend/icons/user.svg"></div>
+                <div><img class="building-icon" src="{% static 'images/frontend/icons/user.svg' %}"></div>
                 <div class="cut-text"><h6 class="uppercase">USUARIO</h6></div>
             </a>
         </li>             
         <li class="{% if op == 'DASHBOARD' %} active {% endif %}">
             <a href="{% url 'opciones-menu' op='DASHBOARD' %}">
-                <div><img class="building-icon" src="../static/images/frontend/icons/graph.svg"></div>
+                <div><img class="building-icon" src="{% static 'images/frontend/icons/graph.svg' %}"></div>
                 <div class="cut-text"><h6 class="uppercase">DASHBOARD</h6></div>
             </a>
         </li>       

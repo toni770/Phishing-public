@@ -96,7 +96,7 @@
     color:white;
 }
 
-.actionsWrapper button {
+.actionsWrapper .actionsButton {
     background: none;
     border: none;
     outline: none;
@@ -108,15 +108,21 @@
     align-items: center;
 }
 
-.actionsWrapper button img{
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(162deg) brightness(101%) contrast(104%); /*white*/
-    margin-right: 10px;
+.actionsWrapper .actionsButton img{
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(162deg) brightness(101%) contrast(104%) !important; /*white*/
+    margin-right: 10px !important;
 }
 
 .first-list, .first-list:hover {
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: 6px !important;
+    border-top-right-radius: 6px !important;
 }
+
+.last-list, .last-list:hover {
+    border-bottom-left-radius: 6px !important;
+    border-bottom-right-radius: 6px !important;
+}
+
 .icon-add, .icon-close {
     width:22px;
 }

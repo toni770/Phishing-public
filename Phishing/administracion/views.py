@@ -1,20 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django.contrib import messages # Allows to send error messages
+from django.contrib import messages  # Allows to send error messages
 from .models import Empresas, Correos, Plantillas, Intentos, Status_Mail, Status_Web
 from .forms import EmpresaForm, CorreoForm, DeleteForm, PhishingForm, PlantillaForm
 from .emails import enviar
 from datetime import datetime
 
-
- ####     CLIENTES       #####
+####     CLIENTES       #####
 
 
 @login_required(login_url='/accounts/login/')
-def clientes(request, id=None):    
+def clientes(request, id=None):
     if id != 'AÑADA CLIENTES':
-        empresa = Empresas.objects.filter(id = id)[0]
+        empresa = Empresas.objects.filter(id=id)[0]
         data = {
             'empresas' : Empresas.objects.all(),
             'empresa_actual' : Empresas.objects.filter(id = id)[0],
@@ -22,6 +21,7 @@ def clientes(request, id=None):
             'intentos' :Intentos.objects.filter(correo__empresa__id = empresa.id),
             'plantillas' : Plantillas.objects.all(),
             'form_empresa' : EmpresaForm(),
+            'form_empresa_nombre' : EmpresaForm(initial={'nombre': empresa.nombre}),
             'form_correo' : CorreoForm(),
             'form_delete' : DeleteForm,
             'form_phishing' : PhishingForm(),
@@ -32,17 +32,18 @@ def clientes(request, id=None):
 
         data = {
 
-            'empresas' : Empresas.objects.all(),
-            'plantillas' : Plantillas.objects.all(),
-            'form_empresa' : EmpresaForm(),
-            'form_correo' : CorreoForm(),
-            'form_delete' : DeleteForm,
-            'form_phishing' : PhishingForm(),
-            'opcion' : 'CLIENTES',
-            'op' : 'AÑADA CLIENTES'
+            'empresas': Empresas.objects.all(),
+            'plantillas': Plantillas.objects.all(),
+            'form_empresa': EmpresaForm(),
+            'form_correo': CorreoForm(),
+            'form_delete': DeleteForm,
+            'form_phishing': PhishingForm(),
+            'opcion': 'CLIENTES',
+            'op': 'AÑADA CLIENTES'
         }
 
     return render(request, 'frontend/index.html', data)
+
 
 @login_required(login_url='/accounts/login/')
 def crear_empresa(request):
@@ -51,6 +52,8 @@ def crear_empresa(request):
     if empresaForm.is_valid():
         empresa = Empresas.objects.create(nombre=request.POST['nombre']).id
         messages.add_message(request, messages.SUCCESS, 'Cliente creado correctamente')
+    else:
+        messages.add_message(request, messages.ERROR, 'Error al crear el cliente')
 
     return redirect('clientes', empresa)
 
@@ -58,21 +61,24 @@ def crear_empresa(request):
 @login_required(login_url='/accounts/login/')
 def crear_correo(request, id=None):
     correoForm = CorreoForm(request.POST)
-    empresa = Empresas.objects.filter(id = id)
+    empresa = Empresas.objects.filter(id=id)
     if correoForm.is_valid():
         Correos.objects.create(correo=request.POST['correo'], empresa=empresa[0])
         messages.add_message(request, messages.SUCCESS, 'Correo creado correctamente')
-
+    else:
+        messages.add_message(request, messages.ERROR, 'Error al crear el correo')
+        
     return redirect('clientes', empresa[0].id)
 
 
 @login_required(login_url='/accounts/login/')
 def borrar_empresa(request, id=None):
     if request.POST['delete'] == 'delete':
-        Empresas.objects.filter(id = id).delete()
+        Empresas.objects.filter(id=id).delete()
         messages.add_message(request, messages.SUCCESS, 'Cliente eliminado correctamente')
     else:
         messages.add_message(request, messages.ERROR, 'El mensaje de confirmación debe de ser "delete"')
+    
     return redirect('index-menu', 'CLIENTES')
 
 
@@ -80,26 +86,34 @@ def borrar_empresa(request, id=None):
 def borrar_correo(request, id=None):
     deleted = False
 
-    correoObj = Correos.objects.filter(id = id)
+    correoObj = Correos.objects.filter(id=id)
     empresa = correoObj[0].empresa.id
     if request.POST['delete'] == 'delete':
         correoObj.delete()
         deleted = True
-        messages.add_message(request, messages.SUCCESS, 'Correo eliminado correctamente')
+        messages.add_message(request, messages.SUCCESS,
+                             'Correo eliminado correctamente')
     else:
-        messages.add_message(request, messages.ERROR, 'El mensaje de confirmación debe de ser "delete"')
+        messages.add_message(request, messages.ERROR,
+                             'El mensaje de confirmación debe de ser "delete"')
 
     return redirect('clientes', empresa)
+
 
 @login_required(login_url='/accounts/login/')
 def cambiar_nombre_empresa(request, id=None):
     empresaForm = EmpresaForm(request.POST)
     if empresaForm.is_valid():
         nombre = request.POST['nombre']
-        Empresas.objects.filter(id=id).update(nombre=nombre)
-        messages.add_message(request, messages.SUCCESS, 'Se ha cambiado el nombre correctamente')
+        empresas = Empresas.objects.filter(nombre=nombre).exclude(id=id)
+        if len(empresas) == 0:
+            Empresas.objects.filter(id=id).update(nombre=nombre)
+            messages.add_message(request, messages.SUCCESS, 'Se ha cambiado el nombre correctamente')
+        else:
+            messages.add_message(request, messages.ERROR, 'Ya existe un cliente con este nombre')
+
     else:
-        messages.add_message(request, messages.ERROR, 'Hay un error')
+        messages.add_message(request, messages.ERROR, 'Error al cambiar el nombre del cliente')
         
     return redirect('clientes', id)
 
@@ -111,24 +125,28 @@ def cambiar_nombre_empresa(request, id=None):
 def phishing(request, id=None):
     if request.POST['phishing'] == 'phishing':
 
-        servicio = Plantillas.objects.filter(id = request.POST['servicio'])
+        servicio = Plantillas.objects.filter(id=request.POST['servicio'])
         status_mail = Status_Mail.objects.create()
         status_web = Status_Web.objects.create()
         correo = Correos.objects.filter(id=id)[0]
 
         Intentos.objects.create(
-                servicio = Plantillas.objects.filter(servicio=servicio[0].servicio)[0],
-                mail_status_id = Status_Mail.objects.filter(id=status_mail.id)[0],
-                web_status_id = Status_Web.objects.filter(id=status_web.id)[0],
-                correo = Correos.objects.filter(id=id)[0],
+            servicio=Plantillas.objects.filter(
+                servicio=servicio[0].servicio)[0],
+            mail_status_id=Status_Mail.objects.filter(id=status_mail.id)[0],
+            web_status_id=Status_Web.objects.filter(id=status_web.id)[0],
+            correo=Correos.objects.filter(id=id)[0],
         )
 
         print('http://localhost:8000/status/'+str(status_mail.id))
-        print('http://localhost:8000/logins/'+str(status_web.id)+"/"+str(servicio[0].servicio))
+        print('http://localhost:8000/logins/' +
+              str(status_web.id)+"/"+str(servicio[0].servicio))
         # hay que añadir estas dos lineas al cuerpo del mensaje
         link_status = 'http://localhost:8000/status/'+str(status_mail.id)
-        link_login = 'http://localhost:8000/logins/'+str(status_web.id)+"/"+str(servicio[0].servicio)
-        enviar(servicio[0].email, servicio[0].password, correo, servicio[0].asunto, servicio[0].mensaje, link_status, link_login)
+        link_login = 'http://localhost:8000/logins/' + \
+            str(status_web.id)+"/"+str(servicio[0].servicio)
+        enviar(servicio[0].email, servicio[0].password, correo,
+               servicio[0].asunto, servicio[0].mensaje, link_status, link_login)
         empresa = Correos.objects.filter(id=id)[0].empresa.id
 
     return redirect('clientes', empresa)
@@ -138,30 +156,36 @@ def phishing(request, id=None):
 def web_status(request, servicio=None, intweb=None):
 
     data = {
-        'servicio' : servicio,
-        'intweb' : intweb,
+        'servicio': servicio,
+        'intweb': intweb,
     }
 
     if request.method == 'GET':
 
         x = Intentos.objects.filter(web_status_id__id=intweb)[0]
         if x.web_status_id.num_open < 1 and servicio == x.servicio.servicio:
-            Status_Web.objects.filter(id=x.web_status_id.id).update(status = True)
-            Status_Web.objects.filter(id=x.web_status_id.id).update(num_open = x.web_status_id.num_open + 1)
-            Status_Web.objects.filter(id=x.web_status_id.id).update(fecha = datetime.now())
+            Status_Web.objects.filter(
+                id=x.web_status_id.id).update(status=True)
+            Status_Web.objects.filter(id=x.web_status_id.id).update(
+                num_open=x.web_status_id.num_open + 1)
+            Status_Web.objects.filter(
+                id=x.web_status_id.id).update(fecha=datetime.now())
 
             return render(request, 'logins/'+servicio+'.html', data)
-            
-
-        return redirect('not-found')
+        else:
+            messages.add_message(request, messages.WARNING, "Ya has abierto el link") # todo: check error message
+            return redirect('not-found')
 
     if request.method == 'POST':
 
         usuario = request.POST['usuario']
-        contraseña = request.POST['contraseña']       
-        Intentos.objects.filter(web_status_id__id=intweb).update(usuario = usuario)
-        Intentos.objects.filter(web_status_id__id=intweb).update(contraseña = contraseña)
-        Intentos.objects.filter(web_status_id__id=intweb).update(ip = request.META.get('REMOTE_ADDR'))
+        contraseña = request.POST['contraseña']
+        Intentos.objects.filter(
+            web_status_id__id=intweb).update(usuario=usuario)
+        Intentos.objects.filter(web_status_id__id=intweb).update(
+            contraseña=contraseña)
+        Intentos.objects.filter(web_status_id__id=intweb).update(
+            ip=request.META.get('REMOTE_ADDR'))
         data = {
             'usuario': usuario,
             'contraseña': contraseña,
@@ -176,13 +200,13 @@ def web_status(request, servicio=None, intweb=None):
 def mail_status(request, intmail=None):
 
     x = Intentos.objects.filter(mail_status_id__id=intmail)[0]
-    Status_Mail.objects.filter(id=x.mail_status_id.id).update(status = True)
-    Status_Mail.objects.filter(id=x.mail_status_id.id).update(num_open = x.mail_status_id.num_open + 1)
-    Status_Mail.objects.filter(id=x.mail_status_id.id).update(fecha = datetime.now())
+    Status_Mail.objects.filter(id=x.mail_status_id.id).update(status=True)
+    Status_Mail.objects.filter(id=x.mail_status_id.id).update(
+        num_open=x.mail_status_id.num_open + 1)
+    Status_Mail.objects.filter(
+        id=x.mail_status_id.id).update(fecha=datetime.now())
 
     return render(request, 'imagenes/logos.html')
-
-
 
 
 #### SERVICIOS ####
@@ -192,22 +216,26 @@ def mail_status(request, intmail=None):
 def servicios_menu(request, op=None):
 
     mensaje = ''
-        # 1: Error, 2: Exito, 3:Neutral
+    # 1: Error, 2: Exito, 3:Neutral
     idMensaje = 2
     if op == 'PLANTILLAS':
 
-        
         plantillas = Plantillas.objects.all()
+
+        for p in plantillas:
+            #añadir a cada plantilla un formulario con su contenido
+            p.form = PlantillaForm(initial={'servicio': p.servicio, 'email': p.email, 'password': p.password, 'asunto': p.asunto, 'mensaje': p.mensaje})
+
         data = {
-            'form_plantilla' : PlantillaForm(),
-            'form_delete' : DeleteForm(),
+            'form_plantilla': PlantillaForm(),
+            'form_delete': DeleteForm(),
             'plantillas': plantillas,
-            'opcion' : 'SERVICIOS',
-            'op' : 'PLANTILLAS',
-            'mensaje' : mensaje,
-            'idMensaje' : idMensaje
+            'opcion': 'SERVICIOS',
+            'op': 'PLANTILLAS',
+            'mensaje': mensaje,
+            'idMensaje': idMensaje
         }
-            
+
         return render(request, 'frontend/index.html', data)
 
     elif op == 'MALWARE':
@@ -215,15 +243,15 @@ def servicios_menu(request, op=None):
         # malware = Malware.objects.all()
         malware = []
         data = {
-            'form_plantilla' : PlantillaForm(),
-            'form_delete' : DeleteForm(),
+            'form_plantilla': PlantillaForm(),
+            'form_delete': DeleteForm(),
             'malware': malware,
-            'opcion' : 'SERVICIOS',
-            'op' : 'MALWARE',
-            'mensaje' : mensaje,
-            'idMensaje' : idMensaje
+            'opcion': 'SERVICIOS',
+            'op': 'MALWARE',
+            'mensaje': mensaje,
+            'idMensaje': idMensaje
         }
-            
+
         return render(request, 'frontend/index.html', data)
 
     else:
@@ -237,11 +265,14 @@ def crear_plantilla(request):
     plantilla = PlantillaForm(request.POST)
     if plantilla.is_valid():
         plantilla.save()
-        messages.add_message(request, messages.SUCCESS, 'Se ha creado la plantilla correctamente')
+        messages.add_message(request, messages.SUCCESS,
+                             'Se ha creado la plantilla correctamente')
         op = 'PLANTILLAS'
         return redirect('servicios-menu', op)
-    op = 'PLANTILLAS'
-    return redirect('servicios-menu', op)
+    else:
+        messages.add_message(request, messages.WARNING, 'Ha ocurrido un error al crear la plantilla')
+        op = 'PLANTILLAS'
+        return redirect('servicios-menu', op)
 
 
 @login_required(login_url='/accounts/login/')
@@ -261,7 +292,7 @@ def editar_plantilla(request, id=None):
     op = 'PLANTILLAS'
     messages.add_message(request, messages.SUCCESS, 'Se ha editado la plantilla correctamente')
 
-    return redirect('servicios-menu',op)
+    return redirect('servicios-menu', op)
 
 
 @login_required(login_url='/accounts/login/')
@@ -275,8 +306,7 @@ def eliminar_plantilla(request, id=None):
     else:
         messages.add_message(request, messages.ERROR, 'El mensaje de confirmación debe ser "delete"')
     op = 'PLANTILLAS'
-    return redirect('servicios-menu', op)  
-
+    return redirect('servicios-menu', op)
 
 
 #### OPCIONES ####
@@ -286,28 +316,27 @@ def eliminar_plantilla(request, id=None):
 def opciones_menu(request, op=None):
 
     mensaje = ''
-        # 1: Error, 2: Exito, 3:Neutral
+    # 1: Error, 2: Exito, 3:Neutral
     idMensaje = 2
     if op == 'USUARIO':
 
         data = {
-            'opcion' : 'OPCIONES',
-            'op' : 'USUARIO',
-            'mensaje' : mensaje,
-            'idMensaje' : idMensaje
+            'opcion': 'OPCIONES',
+            'op': 'USUARIO',
+            'mensaje': mensaje,
+            'idMensaje': idMensaje
         }
-            
+
         return render(request, 'frontend/index.html', data)
 
     elif op == 'DASHBOARD':
 
         data = {
-            'opcion' : 'OPCIONES',
-            'op' : 'DASHBOARD',
-            'mensaje' : mensaje,
-            'idMensaje' : idMensaje
+            'opcion': 'OPCIONES',
+            'op': 'DASHBOARD',
+            'mensaje': mensaje,
+            'idMensaje': idMensaje
         }
-
 
         return render(request, 'frontend/index.html', data)
 
@@ -315,6 +344,53 @@ def opciones_menu(request, op=None):
         op = 'USUARIO'
         return redirect('servicios-menu', op)
 
+#### DASHBOARD ####
+
+@login_required(login_url='/accounts/login/')
+def dashboard(request, empresa=None, plantilla=None):
+    empresa_actual = None
+    plantilla_actual = None
+
+    if empresa == None:
+        try:
+            # buscamos el primer cliente
+            empresa_actual = Empresas.objects.all()[0]
+        except:
+            messages.add_message(request, messages.WARNING, 'Para ver estadísticas debes crear clientes')        
+    else:
+        try:
+            # buscamos el cliente con el id indicado
+            empresa_actual =  Empresas.objects.filter(id = empresa)[0]
+        except:
+            messages.add_message(request, messages.ERROR, 'Error con el cliente indicado')        
+
+    if empresa_actual != None:
+        if plantilla == None:
+            try:
+                # buscamos la primera plantilla
+                plantilla_actual = Plantillas.objects.all()[0]
+            except:
+                messages.add_message(request, messages.WARNING, 'Añada plantillas para ver sus estadísticas')
+        else:
+            try:
+                # buscamos la plantilla con el id indicado
+                plantilla_actual = Plantillas.objects.filter(id = plantilla)[0]
+            except:
+                messages.add_message(request, messages.ERROR, 'Error con la plantilla indicada')
+
+    empresas = Empresas.objects.all()
+    plantillas = Plantillas.objects.all()
+
+    data = {
+        'empresas' : empresas,
+        'empresa_actual' : empresa_actual,
+        'plantillas' : plantillas,
+        'plantilla_actual': plantilla_actual,
+        'opcion' : 'DASHBOARD',
+        'op' : ''
+    }
+
+    return render(request, 'frontend/index.html', data)
 
 
 #### SETTINGS ####
@@ -322,31 +398,31 @@ def opciones_menu(request, op=None):
 
 @login_required(login_url='/accounts/login/')
 def index(request):
-    return render(request, 'frontend/index.html')
+    # siempre que se acceda a la url "/" se redirecciona a "/dashboard"
+    return redirect('dashboard')
 
 
 @login_required(login_url='/accounts/login/')
 def index_menu(request, opcion=None):
 
     if opcion == 'CLIENTES':
-
-        try: 
-
+        try:
             id = Empresas.objects.all()[0].id
             return redirect('clientes', id)
         except:
             op = 'AÑADA CLIENTES'
             return redirect('clientes', op)
 
-        
-
     elif opcion == 'SERVICIOS':
         op = 'PLANTILLAS'
         return redirect('servicios-menu', op)
+
     elif opcion == 'OPCIONES':
         op = 'USUARIO'
         return redirect('opciones-menu', op)
 
+    elif opcion == "DASHBOARD":
+        return redirect('dashboard')
 
     return redirect('index')
 
@@ -361,6 +437,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+
 def error_handler(request, status):
     if status == 'OK':
         mensaje = 2
@@ -371,3 +448,13 @@ def error_handler(request, status):
     elif status == 'ERROR':
         mensaje = 1
         return render(request, mensaje)
+
+def testing(request):
+    # Get the emails sent to the user "ivan.jimeno.ramirez1@gmail.com" from the first client
+    correos = Intentos.objects.raw(
+        """ SELECT COUNT(*)
+            FROM Intentoss i, Coreoss c, Empresass e
+            WHERE 
+        """
+    )
+    return render(request, 'frontend/testing.html')

@@ -22,7 +22,7 @@ def enviar( usuario, contraseña, destino, asunto, contenido, link_status, link_
 
     #Creamos el  mensaje con MIME
     contenido_mensaje = MIMEMultipart()
-    contenido_mensaje['From'] = 'Info'#mail_origen
+    contenido_mensaje['From'] = mail_origen
     contenido_mensaje['To'] = mail_destino
     contenido_mensaje['Subject'] = asunto
     contenido_mensaje['Date'] = str(date.today())

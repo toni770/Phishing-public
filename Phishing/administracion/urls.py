@@ -5,7 +5,9 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('dashboard/<str:opcion>', views.index_menu, name='index-menu'),
+    path('dashboard/<str:empresa>/<str:plantilla>', views.dashboard, name='dashboard-e-p'),
+    path('dashboard/<str:empresa>', views.dashboard, name='dashboard-e'),
+    path('dashboard', views.dashboard, name='dashboard'),
     path('servicios/<str:op>', views.servicios_menu, name='servicios-menu'),
     path('cliente/<str:id>', views.clientes, name='clientes'),
     path('crearEmpresa', views.crear_empresa, name='crear-empresa'),
@@ -22,4 +24,6 @@ urlpatterns = [
     path('editarPlantilla/<str:id>', views.editar_plantilla, name='editar-plantilla'),
     path('opciones/<str:op>', views.opciones_menu, name='opciones-menu'),
     path('logout', views.logout_view, name='logout'),
+    path('test', views.testing, name='test'),
+    path('<str:opcion>', views.index_menu, name='index-menu'),
 ]
