@@ -1,0 +1,32 @@
+{% load static %}
+<nav class="navbar">
+  <div class="container-fluid">
+    <!--Icono-->
+    <a class="navbar-brand" href="{% url 'index' %}">
+      <div><img class="brand-icon" src="{% static 'images/snapchat.svg' %}"></div>
+      <div><h1>Phishing</h1></div>
+    </a>      
+  </div>
+
+  <div class="container-fluid">
+
+    <ul class="barramenu">
+      <li><a href="{% url 'index-menu' opcion='DASHBOARD' %}" class="{% if opcion == 'DASHBOARD' %} navbar-active {% endif %}">DASHBOARD</a></li>
+      <li><a href="{% url 'index-menu' opcion='CLIENTES' %}" class="{% if opcion == 'CLIENTES' %} navbar-active {% endif %}">CLIENTES</a></li>
+      <li><a href="{% url 'index-menu' opcion='SERVICIOS' %}" class="{% if opcion == 'SERVICIOS' %} navbar-active {% endif %}">SERVICIOS</a></li>
+      <li><a href="{% url 'index-menu' opcion='OPCIONES' %}"class="{% if opcion == 'OPCIONES' %} navbar-active {% endif %}">OPCIONES</a></li>
+    </ul>      
+
+  </div>
+
+
+  <div>
+    <!--Logout-->
+    <form class="logout-form" action="{% url 'logout' %}">
+      <button class="logout-button" type="submit">
+        <div><h6 class="green">Logout</h6></div>
+        <div><img class="logout-icon" src="{% static 'images/logout.svg' %}"></div>
+      </button>
+    </form>
+  </div>
+</nav>

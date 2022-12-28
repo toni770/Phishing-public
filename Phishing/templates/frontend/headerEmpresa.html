@@ -1,0 +1,87 @@
+{% load static %}
+{% if empresa_actual != None %}
+<div class="box empresaBox">
+    <div class="pc-box">
+        <h1 class="green uppercase">{{ empresa_actual.nombre }}</h1>
+        <div class="actionsWrapper">
+            <ul>
+                <li>
+                    <a href="#" class="subtitle">
+                        <h6>Acciones</h6>
+                        <img class="accionesDrop" src="{% static 'images/frontend/correos/drop-down.svg' %}">
+                    </a>
+                    <ul>
+                        <li class="green-back first-list">
+                            <button class="actionsButton" type="button" onclick="toggleModal('correo-modal{{empresa_actual}}')">
+                                <img class="icon-add" src="{% static 'images/plus.svg' %}">
+                                <h6>Añadir correo</h6>
+                            </button>
+                        </li>
+                        <li class="green-back">
+                            <button class="actionsButton" type="button" onclick="toggleModal('rename_empresa')">
+                                <img class="icon-edit" src="{% static 'images/frontend/icons/edit.svg' %}">
+                                <h6>Cambiar nombre</h6>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="actionsButton delete-btn-empresa" type="button" onclick="toggleModal('delete_empresa')">
+                                <img class="icon-close" src="{% static 'images/frontend/icons/close.svg' %}">
+                                <h6>Eliminar cliente</h6>
+                            </button>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>    
+    <div>
+        <!--popup button delete-->
+        <div id="delete_empresa" class="modal popupContentWrapper">
+            <div class="popup-content">
+                <span onclick="toggleModal('delete_empresa')" class="close">&times;</span>
+                <form action="{% url 'borrar-empresa' id=empresa_actual.id %}" method="post">
+                    <h5>Introduce "delete" para confirmar la eliminación del cliente <span class="green">{{ empresa_actual }}</span>:</h5>
+                    {% csrf_token %}
+                    <div>
+                        {{ form_delete.delete }}
+                        <input type="submit" class="submit" value="Eliminar">
+                    </div>
+                
+                </form>
+            </div>
+        </div>
+
+        <!--popup rename client-->
+        <div id="rename_empresa" class="modal popupContentWrapper">
+            <div class="popup-content">
+                <span onclick="toggleModal('rename_empresa')" class="close">&times;</span>
+                <form action="{% url 'cambiar-nombre-empresa' id=empresa_actual.id %}" method="post">
+                    <h5>Cambiar el nombre de la empresa <span class="green">{{ empresa_actual }}</span>:</h5>
+                    {% csrf_token %}
+                    <div>
+                        {{ form_empresa_nombre.nombre }}
+                        <input type="submit" class="submit" value="Cambiar">
+                    </div>
+                
+                </form>
+            </div>
+        </div>
+
+        <!--popup new email -->
+        <div id="correo-modal{{empresa_actual}}" class="modal popupContentWrapper">
+            <div class="popup-content">
+                <span onclick="toggleModal('correo-modal{{empresa_actual}}')" class="close">&times;</span>
+                <form action="{% url 'crear-correo' id=empresa_actual.id %}" method="post" style="text-align: center;">
+                    <h5>Añadir nuevo correo</h5>
+                    {% csrf_token %}
+                    <div>
+                        {{ form_correo.correo }}
+                        <input type="submit" class="submit" value="Añadir">
+                    </div>
+                
+                </form>
+            </div>
+        </div>
+    </div>
+</div>   
+{% endif %}

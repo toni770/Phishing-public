@@ -1,0 +1,354 @@
+* {
+    font-family: "Segoe UI","Helvetica Neue","Lucida Grande","Roboto","Ebrima","Nirmala UI","Gadugi","Segoe Xbox Symbol","Segoe UI Symbol","Meiryo UI","Khmer UI","Tunga","Lao UI","Raavi","Iskoola Pota","Latha","Leelawadee","Microsoft YaHei UI","Microsoft JhengHei UI","Malgun Gothic","Estrangelo Edessa","Microsoft Himalaya","Microsoft New Tai Lue","Microsoft PhagsPa","Microsoft Tai Le","Microsoft Yi Baiti","Mongolian Baiti","MV Boli","Myanmar Text","Cambria Math";
+}
+
+body {
+    margin: 0 auto;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url("/static/images/microsoft/background.jpg");
+    background-size: cover;
+    background-position:center;
+    z-index: 1;
+}
+
+body::after {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.04);
+    z-index:-1;
+}
+
+h3 {
+    color: #1b1b1b;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin:0;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    font-family: "Segoe UI","Helvetica Neue","Lucida Grande","Roboto","Ebrima","Nirmala UI","Gadugi","Segoe Xbox Symbol","Segoe UI Symbol","Meiryo UI","Khmer UI","Tunga","Lao UI","Raavi","Iskoola Pota","Latha","Leelawadee","Microsoft YaHei UI","Microsoft JhengHei UI","Malgun Gothic","Estrangelo Edessa","Microsoft Himalaya","Microsoft New Tai Lue","Microsoft PhagsPa","Microsoft Tai Le","Microsoft Yi Baiti","Mongolian Baiti","MV Boli","Myanmar Text","Cambria Math";
+}
+
+h6 {
+    color: #1b1b1b;
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0px;
+    font-family: "Segoe UI","Helvetica Neue","Lucida Grande","Roboto","Ebrima","Nirmala UI","Gadugi","Segoe Xbox Symbol","Segoe UI Symbol","Meiryo UI","Khmer UI","Tunga","Lao UI","Raavi","Iskoola Pota","Latha","Leelawadee","Microsoft YaHei UI","Microsoft JhengHei UI","Malgun Gothic","Estrangelo Edessa","Microsoft Himalaya","Microsoft New Tai Lue","Microsoft PhagsPa","Microsoft Tai Le","Microsoft Yi Baiti","Mongolian Baiti","MV Boli","Myanmar Text","Cambria Math";
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+p {
+    font-size: .8125rem;
+    color: #1b1b1b;
+    margin-bottom: 16px;
+}
+
+a {
+    font-size: .8125rem;
+    color: #1b1b1b;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.blue {
+    color: #0067b8;
+}
+
+.blue:hover {
+    color: #686464;
+}
+
+#main, #second {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+#main {
+    background-color: white;
+    width: 352px;
+    height: 250px;
+    padding: 44px;
+    margin-bottom: 20px;
+}
+
+form {
+    display:flex;
+    min-width: 352px;
+}
+
+#form-username, #form-password {
+    min-width: 352px;
+}
+
+#form-password {
+    display: none;
+}
+
+input[type=text], input[type=password] {
+    padding: 6px 10px;
+    padding-left: 0px;
+    border: none;
+    outline: none;
+    border-bottom:1px solid rgba(0,0,0,.6);
+    height: 36px;
+    cursor: text;
+    width: 100%;
+    font-size: 15px;
+    font-family: "Segoe UI","Helvetica Neue","Lucida Grande","Roboto","Ebrima","Nirmala UI","Gadugi","Segoe Xbox Symbol","Segoe UI Symbol","Meiryo UI","Khmer UI","Tunga","Lao UI","Raavi","Iskoola Pota","Latha","Leelawadee","Microsoft YaHei UI","Microsoft JhengHei UI","Malgun Gothic","Estrangelo Edessa","Microsoft Himalaya","Microsoft New Tai Lue","Microsoft PhagsPa","Microsoft Tai Le","Microsoft Yi Baiti","Mongolian Baiti","MV Boli","Myanmar Text","Cambria Math";
+}
+
+input[type=text]:active, input[type=password]:active, input[type=text]:focus, input[type=password]:focus {
+    border-color: #0067b8;
+}
+
+input[type=text]:hover, input[type=password]:hover {
+    border-color: rgba(0,0,0,.6);
+}
+
+.form-button {
+    min-width: 108px;
+    min-height: 32px;
+    padding: 4px 12px 4px 12px;
+    font-size: 15px;
+    line-height: normal;
+    color: #fff;
+    background-color: #0067b8;
+    border: none;
+    position: relative;
+    top: 10px; 
+    left: 242px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.inputError {
+    border-color: #e81123 !important;
+}
+
+#userError, #passError {
+    display: none;
+    color: #e81123;
+    font-size: 15px;
+}
+
+.siguiente {
+    top: 52px !important; 
+}
+
+input[type=submit]:hover, .form-button:hover {
+    background-color: #005ca3;
+}
+
+#go-back {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+}
+
+#go-back > button {
+    cursor: pointer;
+    margin-right: 2px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+#go-back > button:hover {
+    background-color: #e4e4e4;
+    border-radius: 50%;
+}
+
+.email {
+    line-height: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #1b1b1b;
+    font-size: 15px;
+}
+
+#second {
+    background-color: white;
+    margin-bottom:38;
+    padding: 8px 44px;
+}
+
+#second > a {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 352px;
+    height: 32px;
+
+}
+
+#second > a {
+    display:block;
+    width: 352px;
+    height: 32px;
+}
+
+#second > a > div {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#second > a:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#second:hover {
+    background-color: #e8e4e4;
+}
+
+.fadeOutTrans{
+    animation: fadeOut 1s;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.2s, opacity 0.2s linear;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s linear;
+}
+
+@keyframes fadeInRight {
+    0% {
+       /*opacity: 1;*/
+       transform: translateX(-300px);
+       display: block;
+    }
+    100% {
+       /*opacity: 0;*/
+       transform: translateX(0px);
+       display: none;
+    }
+} 
+
+@keyframes fadeInLeft {
+    0% {
+       opacity: 0;
+       transform: translateX(48px);
+    }
+    100% {
+       opacity: 1;
+       transform: translateX(0px);
+    }
+ }
+
+ @keyframes fadeOutLeft {
+    0% {
+       opacity: 1;
+       transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-48px);
+        display:none;
+    }
+ }
+
+ @keyframes fadeInRight {
+    0% {
+       opacity: 0;
+       transform: translateX(-48px);
+    }
+    100% {
+       opacity: 1;
+       transform: translateX(0px);
+    }
+ }
+
+@keyframes fadeOutRight {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(48px);
+        display:none;
+    }
+}
+
+.fadeOutLeft{
+    animation-duration:0.2s;
+    animation-name: fadeOutLeft;
+}
+
+.fadeInLeft{
+    display: block !important;
+    animation-duration:0.2s;
+    animation-name:fadeInLeft;
+}
+
+.fadeInRight {
+    display: block !important;
+    animation-duration:0.2s;
+    animation-name: fadeInRight;
+}
+
+.fadeOutRight {
+    animation-duration:0.2s;
+    animation-name: fadeOutRight;
+}
+
+.hide {
+    display: none !important;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+footer a {
+    color: #000;
+    font-size: 12px;
+    line-height: 28px;
+    white-space: nowrap;
+    display: inline-block;
+    margin-left: 8px;
+    margin-right: 8px;
+    text-decoration: none;
+}
+
+footer .points {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    line-height: 22px;
+    vertical-align: top;
+    
+}

